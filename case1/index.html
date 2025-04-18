@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Простой слайдер изображений</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f0f0; font-family: Arial, sans-serif; }
+    .slider { position: relative; width: 600px; border: 2px solid #ccc; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .slides-wrapper { position: relative; }
+    .slide { display: none; width: 100%; height: auto; }
+    .slide.active { display: block; }
+    .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; font-size: 2rem; cursor: pointer; padding: 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    #prev { left: 10px; }
+    #next { right: 10px; }
+    .counter { text-align: center; padding: 10px 0; font-size: 1rem; color: #333; background: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <div class="slider">
+    <div class="slides-wrapper">
+      <img src="images/image1.jpg" class="slide active" alt="Изображение 1">
+      <img src="images/image2.jpg" class="slide" alt="Изображение 2">
+      <img src="images/image3.jpg" class="slide" alt="Изображение 3">
+      <img src="images/image4.jpg" class="slide" alt="Изображение 4">
+      <img src="images/image5.jpg" class="slide" alt="Изображение 5">
+    </div>
+    <button id="prev" class="slider-btn">⟨</button>
+    <button id="next" class="slider-btn">⟩</button>
+    <div id="counter" class="counter">Изображение 1 из 5</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const prevBtn = document.getElementById('prev');
+      const nextBtn = document.getElementById('next');
+      const counter = document.getElementById('counter');
+      let current = 0;
+      const total = slides.length;
+
+      function updateSlider() {
+        slides.forEach((slide, idx) => {
+          slide.classList.toggle('active', idx === current);
+        });
+        counter.textContent = `Изображение ${current + 1} из ${total}`;
+      }
+
+      prevBtn.addEventListener('click', () => {
+        current = (current - 1 + total) % total;
+        updateSlider();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        current = (current + 1) % total;
+        updateSlider();
+      });
+
+      updateSlider();
+    });
+  </script>
+</body>
+</html>
